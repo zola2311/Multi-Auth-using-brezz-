@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,31 @@ Route::post('/register/create',[AdminController::class, 'AdminRegisterCreate'])-
 
 
 /* ------------- End Admin Route -------------- */
+
+
+
+
+/* ------------- Seller Route -------------- */
+
+Route::prefix('seller')->group(function (){
+
+    Route::get('/login',[SellerController::class, 'SellerIndex'])->name('seller_login_from');
+
+    Route::get('/dashboard',[SellerController::class, 'SellerDashboard'])->name('seller.dashboard')->middleware('seller');
+
+    Route::post('/login/owner',[SellerController::class, 'SellerLogin'])->name('seller.login');
+
+
+
+    Route::get('/logout',[SellerController::class, 'SellerLogout'])->name('seller.logout')->middleware('seller');
+
+    Route::get('/register',[SellerController::class, 'SellerRegister'])->name('seller.register');
+
+    Route::post('/register/create',[SellerController::class, 'SellerRegisterCreate'])->name('seller.register.create');
+
+
+});
+/* ------------- End Seller Route -------------- */
 Route::get('/', function () {
     return view('welcome');
 });
